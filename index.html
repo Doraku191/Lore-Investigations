@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Teko:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --bg:#050507;--surf:#0c0c10;--surf2:#101015;--bdr:#1c1c24;
   --red:#e74c3c;--amb:#e67e22;--grn:#2ecc71;--blu:#3498db;
   --txt:#8888a0;--dim:#383848;--hi:#ccccdd;
@@ -74,27 +74,46 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 /* WORD BOX */
 .wbox{background:var(--surf);border:1px solid var(--bdr);border-radius:7px;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;min-height:0;overflow:hidden;position:relative;}
 .wlbl{position:absolute;top:8px;left:12px;font-family:var(--fl);font-size:.48rem;letter-spacing:3px;color:var(--dim);}
-.mword{font-family:var(--fd);font-size:2.6rem;font-weight:900;letter-spacing:5px;color:var(--red);text-shadow:var(--gr);text-align:center;min-height:58px;display:flex;align-items:center;justify-content:center;line-height:1;}
+.mword{font-family:var(--fd);font-size:2.4rem;font-weight:900;letter-spacing:4px;color:var(--red);text-shadow:var(--gr);text-align:center;min-height:54px;display:flex;align-items:center;justify-content:center;line-height:1.1;flex-wrap:wrap;gap:8px;}
 .mword.pop{animation:wp .35s ease forwards;}
 @keyframes wp{from{opacity:0;transform:scale(.82) translateY(-8px);filter:blur(6px)}to{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}}
-.wstat{font-family:var(--fl);font-size:.68rem;letter-spacing:4px;color:var(--dim);min-height:16px;}
+.wstat{font-family:var(--fl);font-size:.68rem;letter-spacing:4px;color:var(--dim);min-height:16px;text-align:center;}
 .tape{width:100%;display:flex;flex-direction:column;gap:2px;overflow:hidden;flex:1;min-height:0;}
 .tr{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:3px;background:var(--surf2);border-left:2px solid var(--bdr);flex-shrink:0;animation:tin .25s ease;}
 @keyframes tin{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
 .tr.t0{border-left-color:var(--red);}
 .tr.t1{border-left-color:var(--amb);opacity:.7;}
 .tr.t2{border-left-color:var(--bdr);opacity:.4;}
+.tr.tq{border-left-color:var(--blu);}
 .tt{font-size:.55rem;color:var(--dim);min-width:42px;}
 .tw{font-family:var(--fd);font-size:.72rem;letter-spacing:2px;color:var(--hi);font-weight:700;}
 .ti{margin-left:auto;font-size:.52rem;color:var(--dim);}
 
 /* CONTROLS */
 .controls{display:flex;gap:7px;}
-.btn{flex:1;padding:13px 6px;border:1px solid var(--bdr);border-radius:5px;background:var(--surf);color:var(--txt);font-family:var(--fl);font-size:.88rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;-webkit-appearance:none;}
+.btn{flex:1;padding:13px 6px;border:1px solid var(--bdr);border-radius:5px;background:var(--surf);color:var(--txt);font-family:var(--fl);font-size:.88rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;-webkit-appearance:none;transition:all .15s;}
 .btn:active{filter:brightness(1.4);}
 .bmain{border-color:var(--red);color:var(--red);text-shadow:var(--gr);}
 .bmain.on{border-color:var(--grn);color:var(--grn);text-shadow:var(--gg);}
-.bsm{flex:0 0 54px;font-size:.7rem;color:var(--dim);letter-spacing:1px;}
+.bask{border-color:var(--blu);color:var(--blu);flex:0 0 80px;font-size:.7rem;letter-spacing:2px;}
+.bask.recording{border-color:var(--red);color:var(--red);animation:btnPulse .7s infinite;}
+@keyframes btnPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.bsm{flex:0 0 50px;font-size:.7rem;color:var(--dim);letter-spacing:1px;}
+
+/* QUESTION OVERLAY */
+#qoverlay{position:fixed;inset:0;background:rgba(5,5,7,.95);z-index:5000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px;text-align:center;}
+#qoverlay.gone{display:none;}
+.qlbl{font-family:var(--fl);font-size:.6rem;letter-spacing:5px;color:var(--dim);}
+.qstatus{font-family:var(--fd);font-size:1.1rem;font-weight:700;color:var(--blu);text-shadow:var(--gb);min-height:28px;}
+.qwave{width:100%;max-width:300px;height:48px;border-radius:4px;background:var(--surf);}
+.qhint{font-size:.65rem;color:var(--dim);line-height:1.6;max-width:280px;}
+.qbtns{display:flex;gap:10px;width:100%;max-width:300px;}
+.qbtn{flex:1;padding:14px;border-radius:5px;border:1px solid var(--bdr);background:var(--surf);color:var(--txt);font-family:var(--fl);font-size:.85rem;letter-spacing:3px;cursor:pointer;-webkit-appearance:none;}
+.qbtn.rec{border-color:var(--red);color:var(--red);text-shadow:var(--gr);}
+.qbtn.rec.active{background:rgba(231,76,60,.1);animation:btnPulse .7s infinite;}
+.qbtn.send{border-color:var(--blu);color:var(--blu);}
+.qbtn.send:disabled{opacity:.3;pointer-events:none;}
+.qbtn.cancel{border-color:var(--bdr);color:var(--dim);flex:0 0 60px;}
 
 /* SPLASH */
 #splash{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;}
@@ -112,6 +131,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 </head>
 <body>
 
+<!-- SPLASH -->
 <div id="splash">
   <div class="seye">👁</div>
   <div class="stitle">LORE OVILUS</div>
@@ -128,6 +148,20 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
   <button class="sbtn" onclick="init()">INITIALIZE</button>
 </div>
 
+<!-- QUESTION OVERLAY -->
+<div id="qoverlay" class="gone">
+  <div class="qlbl">ASK A QUESTION</div>
+  <div class="qstatus" id="qstatus">Press RECORD then speak</div>
+  <canvas class="qwave" id="qwave" width="300" height="48"></canvas>
+  <div class="qhint">Hold RECORD while asking your question.<br>Press SEND to receive 3–4 words in response.</div>
+  <div class="qbtns">
+    <button class="qbtn cancel" onclick="closeQuestion()">✕</button>
+    <button class="qbtn rec" id="qrecBtn" onclick="toggleRecord()">RECORD</button>
+    <button class="qbtn send" id="qsendBtn" disabled onclick="sendQuestion()">SEND</button>
+  </div>
+</div>
+
+<!-- APP -->
 <div class="app">
   <div class="hdr">
     <div class="team">Team LORE</div>
@@ -153,7 +187,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
   </div>
 
   <div class="wbox">
-    <div class="wlbl">TRANSMISSION</div>
+    <div class="wlbl" id="wlbl">TRANSMISSION</div>
     <div class="mword" id="mword">· · ·</div>
     <div class="wstat" id="wstat">AWAITING SIGNAL</div>
     <div class="tape" id="tape"></div>
@@ -161,13 +195,14 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 
   <div class="controls">
     <button class="btn bmain" id="startBtn" onclick="toggleSession()">ACTIVATE</button>
-    <button class="btn bsm" onclick="clearLog()">CLEAR</button>
+    <button class="btn bask" id="askBtn" onclick="openQuestion()" disabled>ASK</button>
+    <button class="btn bsm" onclick="clearLog()">CLR</button>
     <button class="btn bsm" id="vbtn" onclick="toggleVoice()">🔊</button>
   </div>
 </div>
 
 <script>
-// DICTIONARY — 512 words
+// ── DICTIONARY (512 words) ──────────────────────────────────────────
 const RAW=[
   "HERE","THERE","NEAR","FAR","ABOVE","BELOW","INSIDE","OUTSIDE","BEHIND","UNDER",
   "OVER","THROUGH","BESIDE","ACROSS","WITHIN","BEYOND","FORWARD","BACK","LEFT","RIGHT",
@@ -199,44 +234,53 @@ const RAW=[
   "THREE","SEVEN","ONE","ZERO","MANY","FEW","ALL","NONE","HALF","BOTH",
   "SAME","NEXT","ONLY","MORE","LESS","TWICE","LAST","FIRST","LORE","INVESTIGATE",
   "EVIDENCE","WITNESS","CONFIRM","BASELINE","SPIKE","READING","SESSION","TEAM","VERIFY","LOG",
-  "ACTIVE","ALERT","SHADOW","CAVE","BRANCH","CAVE","FLAME","EMBER","FROST","SMOKE"
+  "ACTIVE","ALERT","SHADOW","CAVE","BRANCH","FLAME","EMBER","FROST","SMOKE","COLD"
 ];
 const DICT=[];
 while(DICT.length<512){for(let i=0;i<RAW.length&&DICT.length<512;i++)DICT.push(RAW[i]);}
 
-// STATE
+// ── STATE ────────────────────────────────────────────────────────────
 let running=false,voiceOn=true,history=[];
 let sA=0,sG=0,sU=0,sM=45;
+// Magnetometer: heavier smoothing, much higher spike thresholds
 let magBase=null,magSmooth=45,magDelta=0;
+// mag smoothing factor: lower = smoother / less reactive (was 0.08)
+const MAG_SMOOTH=0.03;
+// spike thresholds in μT delta (raised significantly)
+const MAG_MID=8, MAG_HIGH=20, MAG_SPIKE=35;
 let wordTimer=null,uiRaf=null;
 let audioCtx=null,analyser=null,audioArr=null;
 
-// Build seg elements
+// Question mode state
+let qRecording=false,qHasRecording=false;
+let qMediaRecorder=null,qAudioChunks=[];
+let qWaveRaf=null,qAnalyser=null,qWaveArr=null;
+
+// Build segs
 (function(){
   const t=document.getElementById('segs');
   for(let i=0;i<10;i++){const s=document.createElement('div');s.className='seg';s.id='s'+i;t.appendChild(s);}
 })();
 
-// INIT
+// ── INIT ─────────────────────────────────────────────────────────────
 async function init(){
   document.getElementById('splash').classList.add('gone');
-  // Motion
   if(typeof DeviceMotionEvent?.requestPermission==='function'){
     try{if(await DeviceMotionEvent.requestPermission()==='granted')bindMotion();}catch(e){}
   }else{bindMotion();}
-  // Mag
   if(typeof DeviceOrientationEvent?.requestPermission==='function'){
     try{if(await DeviceOrientationEvent.requestPermission()==='granted')bindMag();}catch(e){}
   }else{bindMag();}
-  // Mic
   try{
     const stream=await navigator.mediaDevices.getUserMedia({audio:true});
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
     const src=audioCtx.createMediaStreamSource(stream);
     analyser=audioCtx.createAnalyser();analyser.fftSize=256;
     src.connect(analyser);audioArr=new Uint8Array(analyser.frequencyBinCount);
+    // Also keep the stream ref for question recording
+    window._micStream=stream;
   }catch(e){console.warn('Mic denied',e);}
-  speechSynthesis.getVoices();
+  if(typeof speechSynthesis!=='undefined')speechSynthesis.getVoices();
 }
 
 function bindMotion(){
@@ -249,10 +293,9 @@ function bindMotion(){
 }
 
 function bindMag(){
-  // Try native Magnetometer API (Chrome Android with Generic Sensor)
   if(typeof Magnetometer!=='undefined'){
     try{
-      const mag=new Magnetometer({frequency:10});
+      const mag=new Magnetometer({frequency:5});
       mag.addEventListener('reading',()=>{sM=Math.sqrt(mag.x**2+mag.y**2+mag.z**2);});
       mag.addEventListener('error',()=>bindMagFallback());
       mag.start();return;
@@ -267,7 +310,8 @@ function bindMagFallback(){
     if(e.alpha===null)return;
     if(lastAlpha!==null){
       let d=Math.abs(e.alpha-lastAlpha);if(d>180)d=360-d;
-      sM=45+d*1.5; // 45 μT Earth baseline + heading-rate fluctuation
+      // Dampen heavily — only genuine compass swings should register
+      sM=45+d*0.3;
     }
     lastAlpha=e.alpha;
   };
@@ -282,7 +326,7 @@ function readAudio(){
   return s/audioArr.length;
 }
 
-// HASH → word index
+// ── HASH → WORD INDEX ────────────────────────────────────────────────
 function computeIdx(){
   const u=readAudio();sU=u;
   const nA=Math.min(Math.floor((sA/30)*255),255);
@@ -296,41 +340,61 @@ function computeIdx(){
   return h;
 }
 
-// WORD GENERATION
+// Generate N words from current sensor snapshot with slight time offsets
+function generateWords(count){
+  const words=[];
+  const base=computeIdx();
+  for(let i=0;i<count;i++){
+    // Each word uses a slightly rotated hash to get variation
+    let h=(base+(i*73))&0x1FF;
+    words.push(DICT[h]);
+  }
+  return words;
+}
+
+// ── WORD GENERATION (passive mode) ──────────────────────────────────
 function generateWord(){
   if(!running)return;
+  const words=generateWords(1);
+  const word=words[0];
   const idx=computeIdx();
-  const word=DICT[idx];
   const ts=new Date().toTimeString().slice(0,8);
-  history.unshift({word,ts,idx});
+  history.unshift({word,ts,idx,type:'auto'});
   if(history.length>20)history.pop();
 
-  const el=document.getElementById('mword');
-  el.classList.remove('pop');void el.offsetWidth;el.textContent=word;el.classList.add('pop');
-  document.getElementById('wstat').textContent=word.split('').join(' · ');
-
-  const dot=document.getElementById('dot');
-  dot.className='dot evt';
-  setTimeout(()=>{if(running)dot.className='dot on';},1800);
-
+  showWords([word]);
   renderTape();
   if(voiceOn)speakWord(word);
 
-  const delay=Math.max(5000,(magDelta>15?7000:12000)+(Math.random()-.5)*8000);
+  const delay=Math.max(5000,(magDelta>MAG_SPIKE?7000:12000)+(Math.random()-.5)*8000);
   wordTimer=setTimeout(generateWord,delay);
+}
+
+function showWords(words){
+  const el=document.getElementById('mword');
+  el.classList.remove('pop');void el.offsetWidth;
+  el.textContent=words.join('   ');
+  el.classList.add('pop');
+  document.getElementById('wstat').textContent=words.length>1?'RESPONSE · '+words.length+' WORDS':words[0].split('').join(' · ');
+  const dot=document.getElementById('dot');
+  dot.className='dot evt';
+  setTimeout(()=>{if(running)dot.className='dot on';},1800);
 }
 
 function renderTape(){
   const tape=document.getElementById('tape');tape.innerHTML='';
   history.forEach((e,i)=>{
     const row=document.createElement('div');
-    row.className='tr '+(i===0?'t0':i<4?'t1':'t2');
-    row.innerHTML=`<span class="tt">${e.ts}</span><span class="tw">${e.word}</span><span class="ti">#${e.idx}</span>`;
+    const age=i===0?'t0':i<4?'t1':'t2';
+    const qcls=e.type==='question'?'tq':'';
+    row.className=`tr ${age} ${qcls}`;
+    const label=e.type==='question'?'[Q] '+e.word:e.word;
+    row.innerHTML=`<span class="tt">${e.ts}</span><span class="tw">${label}</span><span class="ti">#${e.idx}</span>`;
     tape.appendChild(row);
   });
 }
 
-// UI LOOP
+// ── UI LOOP ──────────────────────────────────────────────────────────
 function uiLoop(){
   if(!running)return;
   document.getElementById('vA').textContent=sA.toFixed(1);
@@ -342,15 +406,15 @@ function uiLoop(){
   document.getElementById('bU').style.width=Math.min((sU/255)*100,100)+'%';
   document.getElementById('bM').style.width=Math.min((sM/120)*100,100)+'%';
 
-  // Magnetometer
-  magSmooth+=(sM-magSmooth)*0.08;
+  // Heavily smoothed magnetometer
+  magSmooth+=((sM-magSmooth)*MAG_SMOOTH);
   if(magBase!==null)magDelta=Math.abs(magSmooth-magBase);
 
   const mv=document.getElementById('mval');
   mv.textContent=magSmooth.toFixed(1)+' μT';
-  mv.className='mval '+(magBase===null||magDelta<10?'calm':magDelta<25?'mid':'high');
+  mv.className='mval '+(magBase===null||magDelta<MAG_MID?'calm':magDelta<MAG_HIGH?'mid':'high');
 
-  const segFrac=magBase!==null?Math.min(magDelta/30,1):Math.min(magSmooth/80,1);
+  const segFrac=magBase!==null?Math.min(magDelta/MAG_SPIKE,1):Math.min(magSmooth/80,1);
   const lit=Math.floor(segFrac*10);
   for(let i=0;i<10;i++){
     const s=document.getElementById('s'+i);
@@ -359,15 +423,136 @@ function uiLoop(){
 
   const mn=document.getElementById('mnote');
   if(magBase===null){mn.textContent='Session not started';mn.className='mnote';}
-  else if(magDelta<5){mn.textContent='Stable · Δ'+magDelta.toFixed(1)+' μT from baseline';mn.className='mnote';}
-  else if(magDelta<10){mn.textContent='Minor fluctuation · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote';}
-  else if(magDelta<25){mn.textContent='Elevated · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote warn';}
+  else if(magDelta<MAG_MID){mn.textContent='Stable · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote';}
+  else if(magDelta<MAG_HIGH){mn.textContent='Elevated · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote warn';}
   else{mn.textContent='⚠ SPIKE · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote spike';}
 
   uiRaf=requestAnimationFrame(uiLoop);
 }
 
-// VOICE — guarded: SpeechSynthesis not available in all webviews
+// ── QUESTION MODE ────────────────────────────────────────────────────
+function openQuestion(){
+  if(!running)return;
+  qHasRecording=false;
+  qRecording=false;
+  document.getElementById('qoverlay').classList.remove('gone');
+  document.getElementById('qstatus').textContent='Press RECORD then speak';
+  document.getElementById('qrecBtn').textContent='RECORD';
+  document.getElementById('qrecBtn').classList.remove('active');
+  document.getElementById('qsendBtn').disabled=true;
+  clearCanvas();
+}
+
+function closeQuestion(){
+  stopRecording();
+  cancelAnimationFrame(qWaveRaf);
+  document.getElementById('qoverlay').classList.add('gone');
+}
+
+function toggleRecord(){
+  if(!qRecording){startRecording();}else{stopRecording();}
+}
+
+function startRecording(){
+  const stream=window._micStream;
+  if(!stream){
+    document.getElementById('qstatus').textContent='Microphone not available';
+    return;
+  }
+  qAudioChunks=[];
+  try{
+    qMediaRecorder=new MediaRecorder(stream);
+    qMediaRecorder.ondataavailable=e=>{if(e.data.size>0)qAudioChunks.push(e.data);};
+    qMediaRecorder.onstop=()=>{qHasRecording=true;document.getElementById('qsendBtn').disabled=false;};
+    qMediaRecorder.start();
+    qRecording=true;
+    document.getElementById('qrecBtn').textContent='■ STOP';
+    document.getElementById('qrecBtn').classList.add('active');
+    document.getElementById('qstatus').textContent='Recording… speak your question';
+    startWaveform();
+  }catch(e){
+    document.getElementById('qstatus').textContent='Recording failed';
+    console.warn('MediaRecorder error',e);
+  }
+}
+
+function stopRecording(){
+  if(qMediaRecorder&&qMediaRecorder.state!=='inactive'){
+    qMediaRecorder.stop();
+  }
+  qRecording=false;
+  cancelAnimationFrame(qWaveRaf);
+  document.getElementById('qrecBtn').textContent='RECORD';
+  document.getElementById('qrecBtn').classList.remove('active');
+  if(qHasRecording||qAudioChunks.length>0){
+    document.getElementById('qstatus').textContent='Ready — press SEND';
+  }
+}
+
+function sendQuestion(){
+  stopRecording();
+  closeQuestion();
+
+  // Generate 3–4 words from current sensor state
+  const count=3+Math.floor(Math.random()*2); // 3 or 4
+  const words=generateWords(count);
+  const ts=new Date().toTimeString().slice(0,8);
+  const idx=computeIdx();
+
+  // Log as a question entry
+  history.unshift({word:words.join(' '),ts,idx,type:'question'});
+  if(history.length>20)history.pop();
+
+  // Display all words
+  document.getElementById('wlbl').textContent='RESPONSE';
+  showWords(words);
+  renderTape();
+
+  // Speak each word with a gap
+  if(voiceOn){
+    words.forEach((w,i)=>setTimeout(()=>speakWord(w),i*1200));
+  }
+
+  // Reset label after a moment
+  setTimeout(()=>{document.getElementById('wlbl').textContent='TRANSMISSION';},8000);
+}
+
+// Waveform visualiser in question overlay
+function startWaveform(){
+  if(!audioCtx)return;
+  if(!qAnalyser){
+    qAnalyser=audioCtx.createAnalyser();
+    qAnalyser.fftSize=128;
+    const src=audioCtx.createMediaStreamSource(window._micStream);
+    src.connect(qAnalyser);
+    qWaveArr=new Uint8Array(qAnalyser.frequencyBinCount);
+  }
+  drawWave();
+}
+
+function drawWave(){
+  const canvas=document.getElementById('qwave');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  qAnalyser.getByteTimeDomainData(qWaveArr);
+  ctx.fillStyle='#0c0c10';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e74c3c';ctx.lineWidth=1.5;ctx.beginPath();
+  const step=W/qWaveArr.length;
+  qWaveArr.forEach((v,i)=>{
+    const y=(v/128)*H/2;
+    i===0?ctx.moveTo(0,y):ctx.lineTo(i*step,y);
+  });
+  ctx.stroke();
+  qWaveRaf=requestAnimationFrame(drawWave);
+}
+
+function clearCanvas(){
+  const canvas=document.getElementById('qwave');
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#0c0c10';ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+// ── VOICE ────────────────────────────────────────────────────────────
 const ttsOk=typeof SpeechSynthesisUtterance!=='undefined'&&typeof speechSynthesis!=='undefined';
 function speakWord(word){
   if(!ttsOk)return;
@@ -377,8 +562,8 @@ function speakWord(word){
     const voices=speechSynthesis.getVoices();
     const pick=voices.find(v=>v.lang.startsWith('en')&&(v.name.toLowerCase().includes('male')||v.lang==='en-GB'))||voices.find(v=>v.lang.startsWith('en'));
     if(pick)u.voice=pick;
-    speechSynthesis.cancel();speechSynthesis.speak(u);
-  }catch(e){console.warn('TTS error',e);}
+    speechSynthesis.speak(u);
+  }catch(e){console.warn('TTS',e);}
 }
 function toggleVoice(){
   voiceOn=!voiceOn;
@@ -386,22 +571,27 @@ function toggleVoice(){
   if(!voiceOn&&ttsOk)try{speechSynthesis.cancel();}catch(e){}
 }
 
-// SESSION
+// ── SESSION ──────────────────────────────────────────────────────────
 function toggleSession(){
   running=!running;
   const btn=document.getElementById('startBtn'),dot=document.getElementById('dot');
   if(running){
     btn.textContent='DEACTIVATE';btn.classList.add('on');dot.className='dot on';
+    document.getElementById('askBtn').disabled=false;
     if(audioCtx?.state==='suspended')audioCtx.resume();
     magBase=null;magDelta=0;
     document.getElementById('mword').textContent='· · ·';
     document.getElementById('wstat').textContent='CALIBRATING';
     document.getElementById('mnote').textContent='Calibrating baseline…';
-    setTimeout(()=>{magBase=magSmooth;document.getElementById('mnote').textContent='Baseline set · '+magBase.toFixed(1)+' μT';},2500);
-    wordTimer=setTimeout(generateWord,4000+Math.random()*3000);
+    setTimeout(()=>{
+      magBase=magSmooth;
+      document.getElementById('mnote').textContent='Baseline set · '+magBase.toFixed(1)+' μT';
+    },3000);
+    wordTimer=setTimeout(generateWord,5000+Math.random()*3000);
     uiLoop();
   }else{
     btn.textContent='ACTIVATE';btn.classList.remove('on');dot.className='dot';
+    document.getElementById('askBtn').disabled=true;
     clearTimeout(wordTimer);cancelAnimationFrame(uiRaf);
     magBase=null;
     document.getElementById('wstat').textContent='SESSION ENDED';

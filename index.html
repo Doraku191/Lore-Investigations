@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#050507">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LORE Ovilus">
+<title>LORE Ovilus</title>
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050507;--surf:#0c0c10;--surf2:#101015;--bdr:#1c1c24;
+  --red:#e74c3c;--amb:#e67e22;--grn:#2ecc71;--blu:#3498db;
+  --txt:#8888a0;--dim:#383848;--hi:#ccccdd;
+  --gr:0 0 10px #e74c3c88,0 0 28px #e74c3c22;
+  --ga:0 0 10px #e67e2288,0 0 28px #e67e2222;
+  --gg:0 0 10px #2ecc7188,0 0 28px #2ecc7122;
+  --fd:'Orbitron',monospace;--fm:'Share Tech Mono',monospace;--fl:'Teko',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;}
+html,body{height:100%;overflow:hidden;background:var(--bg);}
+body{font-family:var(--fm);color:var(--txt);display:flex;flex-direction:column;align-items:center;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.1) 3px,rgba(0,0,0,.1) 4px);pointer-events:none;z-index:9000;}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.65) 100%);pointer-events:none;z-index:8999;}
+
+.app{width:100%;max-width:420px;height:100dvh;display:flex;flex-direction:column;padding:14px 14px 10px;gap:9px;}
+
+/* HEADER */
+.hdr{display:flex;flex-direction:column;align-items:center;padding-bottom:10px;border-bottom:1px solid var(--bdr);position:relative;}
+.team{font-family:var(--fl);font-size:.6rem;letter-spacing:7px;color:var(--dim);}
+.title{font-family:var(--fd);font-size:1.55rem;font-weight:900;letter-spacing:5px;color:var(--red);text-shadow:var(--gr);line-height:1;animation:flk 14s infinite;}
+@keyframes flk{0%,91%,93%,95%,100%{opacity:1}92%,94%{opacity:.4}}
+.sub{font-family:var(--fl);font-size:.55rem;letter-spacing:3px;color:var(--dim);margin-top:1px;}
+.dot{position:absolute;right:2px;top:6px;width:7px;height:7px;border-radius:50%;background:var(--dim);transition:all .4s;}
+.dot.on{background:var(--grn);box-shadow:var(--gg);animation:blk 2s infinite;}
+.dot.evt{background:var(--red);box-shadow:var(--gr);}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* SENSORS */
+.sensors{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.sc{background:var(--surf);border:1px solid var(--bdr);border-radius:5px;padding:7px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;overflow:hidden;}
+.sc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--bdr);}
+.sb{position:absolute;bottom:0;left:0;height:3px;border-radius:0 0 0 5px;transition:width .35s ease;z-index:1;}
+.sb.a{background:var(--amb);box-shadow:0 0 5px var(--amb);}
+.sb.g{background:var(--blu);box-shadow:0 0 5px var(--blu);}
+.sb.u{background:var(--grn);box-shadow:0 0 5px var(--grn);}
+.sb.m{background:var(--red);box-shadow:0 0 5px var(--red);}
+.slbl{font-family:var(--fl);font-size:.5rem;letter-spacing:1.5px;color:var(--dim);}
+.sval{font-family:var(--fd);font-size:.7rem;font-weight:700;color:var(--hi);line-height:1;}
+.sunit{font-size:.42rem;color:var(--dim);}
+
+/* MAG PANEL */
+.mag{background:var(--surf);border:1px solid var(--bdr);border-radius:6px;padding:9px 12px;display:flex;flex-direction:column;gap:6px;}
+.mhdr{display:flex;justify-content:space-between;align-items:baseline;}
+.mlbl{font-family:var(--fl);font-size:.58rem;letter-spacing:3px;color:var(--dim);}
+.mval{font-family:var(--fd);font-size:.78rem;font-weight:700;transition:color .3s,text-shadow .3s;}
+.mval.calm{color:var(--grn);text-shadow:var(--gg);}
+.mval.mid{color:var(--amb);text-shadow:var(--ga);}
+.mval.high{color:var(--red);text-shadow:var(--gr);}
+.segs{display:flex;gap:3px;height:10px;}
+.seg{flex:1;border-radius:2px;background:var(--bdr);transition:background .15s,box-shadow .15s;}
+.seg.g{background:#1a5c35;box-shadow:0 0 4px #2ecc7155;}
+.seg.y{background:#6b4800;box-shadow:0 0 4px #e67e2255;}
+.seg.r{background:#6b1010;box-shadow:0 0 4px #e74c3c88;animation:sf .4s infinite;}
+@keyframes sf{0%,100%{opacity:1}50%{opacity:.5}}
+.mnote{font-size:.52rem;color:var(--dim);text-align:center;}
+.mnote.warn{color:var(--amb);}
+.mnote.spike{color:var(--red);animation:blk .5s infinite;}
+
+/* WORD BOX */
+.wbox{background:var(--surf);border:1px solid var(--bdr);border-radius:7px;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;min-height:0;overflow:hidden;position:relative;}
+.wlbl{position:absolute;top:8px;left:12px;font-family:var(--fl);font-size:.48rem;letter-spacing:3px;color:var(--dim);}
+.mword{font-family:var(--fd);font-size:2.6rem;font-weight:900;letter-spacing:5px;color:var(--red);text-shadow:var(--gr);text-align:center;min-height:58px;display:flex;align-items:center;justify-content:center;line-height:1;}
+.mword.pop{animation:wp .35s ease forwards;}
+@keyframes wp{from{opacity:0;transform:scale(.82) translateY(-8px);filter:blur(6px)}to{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}}
+.wstat{font-family:var(--fl);font-size:.68rem;letter-spacing:4px;color:var(--dim);min-height:16px;}
+.tape{width:100%;display:flex;flex-direction:column;gap:2px;overflow:hidden;flex:1;min-height:0;}
+.tr{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:3px;background:var(--surf2);border-left:2px solid var(--bdr);flex-shrink:0;animation:tin .25s ease;}
+@keyframes tin{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.tr.t0{border-left-color:var(--red);}
+.tr.t1{border-left-color:var(--amb);opacity:.7;}
+.tr.t2{border-left-color:var(--bdr);opacity:.4;}
+.tt{font-size:.55rem;color:var(--dim);min-width:42px;}
+.tw{font-family:var(--fd);font-size:.72rem;letter-spacing:2px;color:var(--hi);font-weight:700;}
+.ti{margin-left:auto;font-size:.52rem;color:var(--dim);}
+
+/* CONTROLS */
+.controls{display:flex;gap:7px;}
+.btn{flex:1;padding:13px 6px;border:1px solid var(--bdr);border-radius:5px;background:var(--surf);color:var(--txt);font-family:var(--fl);font-size:.88rem;letter-spacing:3px;text-transform:uppercase;cursor:pointer;-webkit-appearance:none;}
+.btn:active{filter:brightness(1.4);}
+.bmain{border-color:var(--red);color:var(--red);text-shadow:var(--gr);}
+.bmain.on{border-color:var(--grn);color:var(--grn);text-shadow:var(--gg);}
+.bsm{flex:0 0 54px;font-size:.7rem;color:var(--dim);letter-spacing:1px;}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;text-align:center;}
+#splash.gone{display:none;}
+.seye{font-size:3.5rem;animation:ep 2.5s ease-in-out infinite;}
+@keyframes ep{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.08);opacity:1}}
+.stitle{font-family:var(--fd);font-size:1.5rem;font-weight:900;letter-spacing:5px;color:var(--red);text-shadow:var(--gr);}
+.steam{font-family:var(--fl);font-size:.65rem;letter-spacing:6px;color:var(--dim);}
+.sbody{font-size:.72rem;color:var(--txt);line-height:1.8;max-width:310px;}
+.sbody b{color:var(--amb);}
+.sbody em{color:var(--dim);font-style:normal;font-size:.62rem;}
+.sbtn{padding:15px 38px;border:1px solid var(--red);border-radius:5px;background:transparent;color:var(--red);font-family:var(--fd);font-size:.78rem;font-weight:700;letter-spacing:4px;cursor:pointer;text-shadow:var(--gr);-webkit-appearance:none;}
+.sbtn:active{background:rgba(231,76,60,.08);}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="seye">👁</div>
+  <div class="stitle">LORE OVILUS</div>
+  <div class="steam">LOCAL OBSERVATION OF RARE ENTITIES</div>
+  <p class="sbody">
+    Uses <b>real sensor data</b> to generate words:<br><br>
+    <b>Accelerometer</b> · motion magnitude (m/s²)<br>
+    <b>Gyroscope</b> · rotation rate (°/s)<br>
+    <b>Microphone</b> · ambient audio level<br>
+    <b>Magnetometer</b> · magnetic field (μT)<br><br>
+    <em>Must be opened in Chrome on Android — not inside another app.
+    Mic and motion permissions required.</em>
+  </p>
+  <button class="sbtn" onclick="init()">INITIALIZE</button>
+</div>
+
+<div class="app">
+  <div class="hdr">
+    <div class="team">Team LORE</div>
+    <div class="title">OVILUS</div>
+    <div class="sub">Environmental Word Transducer</div>
+    <div class="dot" id="dot"></div>
+  </div>
+
+  <div class="sensors">
+    <div class="sc"><div class="slbl">ACCEL</div><div class="sval" id="vA">—</div><div class="sunit">m/s²</div><div class="sb a" id="bA" style="width:0%"></div></div>
+    <div class="sc"><div class="slbl">GYRO</div><div class="sval" id="vG">—</div><div class="sunit">°/s</div><div class="sb g" id="bG" style="width:0%"></div></div>
+    <div class="sc"><div class="slbl">AUDIO</div><div class="sval" id="vU">—</div><div class="sunit">lvl</div><div class="sb u" id="bU" style="width:0%"></div></div>
+    <div class="sc"><div class="slbl">MAG</div><div class="sval" id="vM">—</div><div class="sunit">μT</div><div class="sb m" id="bM" style="width:0%"></div></div>
+  </div>
+
+  <div class="mag">
+    <div class="mhdr">
+      <div class="mlbl">MAGNETOMETER · REAL SENSOR</div>
+      <div class="mval calm" id="mval">— μT</div>
+    </div>
+    <div class="segs" id="segs"></div>
+    <div class="mnote" id="mnote">Awaiting session start</div>
+  </div>
+
+  <div class="wbox">
+    <div class="wlbl">TRANSMISSION</div>
+    <div class="mword" id="mword">· · ·</div>
+    <div class="wstat" id="wstat">AWAITING SIGNAL</div>
+    <div class="tape" id="tape"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn bmain" id="startBtn" onclick="toggleSession()">ACTIVATE</button>
+    <button class="btn bsm" onclick="clearLog()">CLEAR</button>
+    <button class="btn bsm" id="vbtn" onclick="toggleVoice()">🔊</button>
+  </div>
+</div>
+
+<script>
+// DICTIONARY — 512 words
+const RAW=[
+  "HERE","THERE","NEAR","FAR","ABOVE","BELOW","INSIDE","OUTSIDE","BEHIND","UNDER",
+  "OVER","THROUGH","BESIDE","ACROSS","WITHIN","BEYOND","FORWARD","BACK","LEFT","RIGHT",
+  "CORNER","MIDDLE","EDGE","CENTER","BETWEEN","COLD","SHADOW","MIST","DARK","LIGHT",
+  "FOG","STORM","WIND","EARTH","FIRE","WATER","STONE","WOOD","IRON","BONE",
+  "ASH","DUST","SMOKE","EMBER","FROST","RAIN","ICE","FLAME","ROOT","VOID",
+  "MOTHER","FATHER","CHILD","SISTER","BROTHER","WOMAN","MAN","FAMILY","FRIEND","NAME",
+  "SOUL","SPIRIT","BODY","FACE","EYES","HAND","BLOOD","HEART","VOICE","MIND",
+  "SELF","OTHER","STRANGER","KEEPER","WATCHER","HELP","PAIN","FEAR","ANGER","LOVE",
+  "HATE","ALONE","LOST","FREE","TRAPPED","CALM","WAIT","STAY","LEAVE","COME",
+  "FOLLOW","PROTECT","WARN","MOURN","REMEMBER","FORGET","SEEK","HIDE","HOLD","RELEASE",
+  "NOW","SOON","NEVER","ALWAYS","BEFORE","AFTER","WHEN","TIME","NIGHT","DAY",
+  "HOUR","MOMENT","LONG","AGO","PAST","STILL","AGAIN","ONCE","END","BEGIN",
+  "DAWN","DUSK","ANCIENT","ETERNAL","LINGER","SPEAK","HEAR","KNOW","TELL","ASK",
+  "ANSWER","TRUTH","CALL","SIGN","MESSAGE","SILENT","ECHO","WHISPER","CRY","SAY",
+  "NEED","SHOW","POINT","SIGNAL","LISTEN","REVEAL","CONCEAL","GUIDE","REPEAT","RESPOND",
+  "PORTAL","VEIL","REALM","PLANE","VESSEL","ENERGY","FIELD","CHANNEL","CONTACT","STATIC",
+  "OPEN","CLOSE","DOOR","GATE","PASSAGE","CROSS","THRESHOLD","LIMBO","TETHER","ANCHOR",
+  "BOUND","UNBOUND","MANIFEST","RESIDUAL","PRESENCE","ANOMALY","FREQUENCY","DETECT","APPARITION","ENTITY",
+  "EMPTY","HOLLOW","DEEP","BROKEN","WHOLE","HEAVY","STRONG","WEAK","OLD","NEW",
+  "REAL","GONE","FAINT","CLEAR","LOUD","QUIET","SHARP","DISTANT","CLOSE","BRIGHT",
+  "DIM","STRANGE","FAMILIAR","BLURRED","MOVE","STOP","RUN","FIND","TOUCH","PULL",
+  "PUSH","BREAK","RISE","FALL","TURN","WATCH","WALK","REACH","FLEE","RETURN",
+  "CIRCLE","APPROACH","WITHDRAW","OBSERVE","RECORD","SCAN","MONITOR","CAPTURE","FOLLOW","REMAIN",
+  "ROOM","HALL","FLOOR","WALL","WINDOW","STAIRS","CELLAR","ATTIC","GRAVE","CHURCH",
+  "HOUSE","HOME","FIELD","FOREST","ROAD","BRIDGE","WELL","RUIN","BASEMENT","HOLLOW",
+  "PRAY","HOLY","CURSE","BLESS","RITUAL","SEAL","BIND","WARD","CLEANSE","PATH",
+  "PEACE","DEBT","PROMISE","MEMORY","PURPOSE","UNFINISHED","REGRET","PERSIST","GUARD","PROTECT",
+  "THREE","SEVEN","ONE","ZERO","MANY","FEW","ALL","NONE","HALF","BOTH",
+  "SAME","NEXT","ONLY","MORE","LESS","TWICE","LAST","FIRST","LORE","INVESTIGATE",
+  "EVIDENCE","WITNESS","CONFIRM","BASELINE","SPIKE","READING","SESSION","TEAM","VERIFY","LOG",
+  "ACTIVE","ALERT","SHADOW","CAVE","BRANCH","CAVE","FLAME","EMBER","FROST","SMOKE"
+];
+const DICT=[];
+while(DICT.length<512){for(let i=0;i<RAW.length&&DICT.length<512;i++)DICT.push(RAW[i]);}
+
+// STATE
+let running=false,voiceOn=true,history=[];
+let sA=0,sG=0,sU=0,sM=45;
+let magBase=null,magSmooth=45,magDelta=0;
+let wordTimer=null,uiRaf=null;
+let audioCtx=null,analyser=null,audioArr=null;
+
+// Build seg elements
+(function(){
+  const t=document.getElementById('segs');
+  for(let i=0;i<10;i++){const s=document.createElement('div');s.className='seg';s.id='s'+i;t.appendChild(s);}
+})();
+
+// INIT
+async function init(){
+  document.getElementById('splash').classList.add('gone');
+  // Motion
+  if(typeof DeviceMotionEvent?.requestPermission==='function'){
+    try{if(await DeviceMotionEvent.requestPermission()==='granted')bindMotion();}catch(e){}
+  }else{bindMotion();}
+  // Mag
+  if(typeof DeviceOrientationEvent?.requestPermission==='function'){
+    try{if(await DeviceOrientationEvent.requestPermission()==='granted')bindMag();}catch(e){}
+  }else{bindMag();}
+  // Mic
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=audioCtx.createMediaStreamSource(stream);
+    analyser=audioCtx.createAnalyser();analyser.fftSize=256;
+    src.connect(analyser);audioArr=new Uint8Array(analyser.frequencyBinCount);
+  }catch(e){console.warn('Mic denied',e);}
+  speechSynthesis.getVoices();
+}
+
+function bindMotion(){
+  window.addEventListener('devicemotion',e=>{
+    const a=e.accelerationIncludingGravity;
+    if(a)sA=Math.sqrt((a.x||0)**2+(a.y||0)**2+(a.z||0)**2);
+    const r=e.rotationRate;
+    if(r)sG=Math.sqrt((r.alpha||0)**2+(r.beta||0)**2+(r.gamma||0)**2);
+  });
+}
+
+function bindMag(){
+  // Try native Magnetometer API (Chrome Android with Generic Sensor)
+  if(typeof Magnetometer!=='undefined'){
+    try{
+      const mag=new Magnetometer({frequency:10});
+      mag.addEventListener('reading',()=>{sM=Math.sqrt(mag.x**2+mag.y**2+mag.z**2);});
+      mag.addEventListener('error',()=>bindMagFallback());
+      mag.start();return;
+    }catch(e){}
+  }
+  bindMagFallback();
+}
+
+let lastAlpha=null;
+function bindMagFallback(){
+  const h=e=>{
+    if(e.alpha===null)return;
+    if(lastAlpha!==null){
+      let d=Math.abs(e.alpha-lastAlpha);if(d>180)d=360-d;
+      sM=45+d*1.5; // 45 μT Earth baseline + heading-rate fluctuation
+    }
+    lastAlpha=e.alpha;
+  };
+  window.addEventListener('deviceorientationabsolute',h,true);
+  window.addEventListener('deviceorientation',h,true);
+}
+
+function readAudio(){
+  if(!analyser||!audioArr)return 0;
+  analyser.getByteFrequencyData(audioArr);
+  let s=0;for(let i=0;i<audioArr.length;i++)s+=audioArr[i];
+  return s/audioArr.length;
+}
+
+// HASH → word index
+function computeIdx(){
+  const u=readAudio();sU=u;
+  const nA=Math.min(Math.floor((sA/30)*255),255);
+  const nG=Math.min(Math.floor((sG/360)*255),255);
+  const nU=Math.min(Math.floor((u/255)*255),255);
+  const nM=Math.min(Math.floor((sM/120)*255),255);
+  let h=0;
+  h^=nA*31;h^=nG*37;h^=nU*41;h^=nM*43;
+  h=h&0xFFFF;h=((h<<5)|(h>>11))&0xFFFF;
+  h^=(nA^nM)*17;h=h&0x1FF;
+  return h;
+}
+
+// WORD GENERATION
+function generateWord(){
+  if(!running)return;
+  const idx=computeIdx();
+  const word=DICT[idx];
+  const ts=new Date().toTimeString().slice(0,8);
+  history.unshift({word,ts,idx});
+  if(history.length>20)history.pop();
+
+  const el=document.getElementById('mword');
+  el.classList.remove('pop');void el.offsetWidth;el.textContent=word;el.classList.add('pop');
+  document.getElementById('wstat').textContent=word.split('').join(' · ');
+
+  const dot=document.getElementById('dot');
+  dot.className='dot evt';
+  setTimeout(()=>{if(running)dot.className='dot on';},1800);
+
+  renderTape();
+  if(voiceOn)speakWord(word);
+
+  const delay=Math.max(5000,(magDelta>15?7000:12000)+(Math.random()-.5)*8000);
+  wordTimer=setTimeout(generateWord,delay);
+}
+
+function renderTape(){
+  const tape=document.getElementById('tape');tape.innerHTML='';
+  history.forEach((e,i)=>{
+    const row=document.createElement('div');
+    row.className='tr '+(i===0?'t0':i<4?'t1':'t2');
+    row.innerHTML=`<span class="tt">${e.ts}</span><span class="tw">${e.word}</span><span class="ti">#${e.idx}</span>`;
+    tape.appendChild(row);
+  });
+}
+
+// UI LOOP
+function uiLoop(){
+  if(!running)return;
+  document.getElementById('vA').textContent=sA.toFixed(1);
+  document.getElementById('vG').textContent=sG.toFixed(1);
+  document.getElementById('vU').textContent=Math.floor(sU);
+  document.getElementById('vM').textContent=sM.toFixed(1);
+  document.getElementById('bA').style.width=Math.min((sA/30)*100,100)+'%';
+  document.getElementById('bG').style.width=Math.min((sG/360)*100,100)+'%';
+  document.getElementById('bU').style.width=Math.min((sU/255)*100,100)+'%';
+  document.getElementById('bM').style.width=Math.min((sM/120)*100,100)+'%';
+
+  // Magnetometer
+  magSmooth+=(sM-magSmooth)*0.08;
+  if(magBase!==null)magDelta=Math.abs(magSmooth-magBase);
+
+  const mv=document.getElementById('mval');
+  mv.textContent=magSmooth.toFixed(1)+' μT';
+  mv.className='mval '+(magBase===null||magDelta<10?'calm':magDelta<25?'mid':'high');
+
+  const segFrac=magBase!==null?Math.min(magDelta/30,1):Math.min(magSmooth/80,1);
+  const lit=Math.floor(segFrac*10);
+  for(let i=0;i<10;i++){
+    const s=document.getElementById('s'+i);
+    s.className='seg'+(i<lit?' '+(i<4?'g':i<7?'y':'r'):'');
+  }
+
+  const mn=document.getElementById('mnote');
+  if(magBase===null){mn.textContent='Session not started';mn.className='mnote';}
+  else if(magDelta<5){mn.textContent='Stable · Δ'+magDelta.toFixed(1)+' μT from baseline';mn.className='mnote';}
+  else if(magDelta<10){mn.textContent='Minor fluctuation · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote';}
+  else if(magDelta<25){mn.textContent='Elevated · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote warn';}
+  else{mn.textContent='⚠ SPIKE · Δ'+magDelta.toFixed(1)+' μT';mn.className='mnote spike';}
+
+  uiRaf=requestAnimationFrame(uiLoop);
+}
+
+// VOICE — guarded: SpeechSynthesis not available in all webviews
+const ttsOk=typeof SpeechSynthesisUtterance!=='undefined'&&typeof speechSynthesis!=='undefined';
+function speakWord(word){
+  if(!ttsOk)return;
+  try{
+    const u=new SpeechSynthesisUtterance(word);
+    u.rate=0.78;u.pitch=0.55;u.volume=1;
+    const voices=speechSynthesis.getVoices();
+    const pick=voices.find(v=>v.lang.startsWith('en')&&(v.name.toLowerCase().includes('male')||v.lang==='en-GB'))||voices.find(v=>v.lang.startsWith('en'));
+    if(pick)u.voice=pick;
+    speechSynthesis.cancel();speechSynthesis.speak(u);
+  }catch(e){console.warn('TTS error',e);}
+}
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  document.getElementById('vbtn').textContent=voiceOn?'🔊':'🔇';
+  if(!voiceOn&&ttsOk)try{speechSynthesis.cancel();}catch(e){}
+}
+
+// SESSION
+function toggleSession(){
+  running=!running;
+  const btn=document.getElementById('startBtn'),dot=document.getElementById('dot');
+  if(running){
+    btn.textContent='DEACTIVATE';btn.classList.add('on');dot.className='dot on';
+    if(audioCtx?.state==='suspended')audioCtx.resume();
+    magBase=null;magDelta=0;
+    document.getElementById('mword').textContent='· · ·';
+    document.getElementById('wstat').textContent='CALIBRATING';
+    document.getElementById('mnote').textContent='Calibrating baseline…';
+    setTimeout(()=>{magBase=magSmooth;document.getElementById('mnote').textContent='Baseline set · '+magBase.toFixed(1)+' μT';},2500);
+    wordTimer=setTimeout(generateWord,4000+Math.random()*3000);
+    uiLoop();
+  }else{
+    btn.textContent='ACTIVATE';btn.classList.remove('on');dot.className='dot';
+    clearTimeout(wordTimer);cancelAnimationFrame(uiRaf);
+    magBase=null;
+    document.getElementById('wstat').textContent='SESSION ENDED';
+    document.getElementById('mnote').textContent='Awaiting session start';
+    for(let i=0;i<10;i++)document.getElementById('s'+i).className='seg';
+  }
+}
+
+function clearLog(){
+  history=[];document.getElementById('tape').innerHTML='';
+  document.getElementById('mword').textContent='· · ·';
+  document.getElementById('wstat').textContent=running?'CALIBRATING':'AWAITING SIGNAL';
+}
+
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>
